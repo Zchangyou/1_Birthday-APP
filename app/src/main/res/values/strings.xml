@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">生日好友</string>
+    <string name="nav_home">主页</string>
+    <string name="nav_settings">设置</string>
+    <string name="add_event">添加</string>
+    <string name="save">保存</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="empty_hint">还没有任何记录，\n点击右下角 + 添加第一个</string>
+    <string name="reminder_time_label">提醒时间</string>
+    <string name="export_data">导出数据</string>
+    <string name="import_data">导入数据</string>
+    <string name="battery_optimization">电池优化白名单</string>
+    <string name="honor_protected">荣耀/华为：允许自启动</string>
+    <string name="battery_optimization_desc">确保 APP 关闭后仍能推送提醒</string>
+    <string name="honor_protected_desc">跳转至手机管家启动管理</string>
+</resources>

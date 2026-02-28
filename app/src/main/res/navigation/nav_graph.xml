@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.birthday.friends.ui.main.MainFragment"
+        android:label="主页"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_main_to_edit"
+            app:destination="@id/editFragment" />
+
+        <action
+            android:id="@+id/action_main_to_detail"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="eventId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.birthday.friends.ui.edit.EditFragment"
+        android:label="添加/编辑"
+        tools:layout="@layout/fragment_edit">
+
+        <argument
+            android:name="eventId"
+            app:argType="long"
+            android:defaultValue="0" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.birthday.friends.ui.detail.DetailFragment"
+        android:label="详情"
+        tools:layout="@layout/fragment_detail">
+
+        <argument
+            android:name="eventId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_detail_to_edit"
+            app:destination="@id/editFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.birthday.friends.ui.settings.SettingsFragment"
+        android:label="设置"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>
