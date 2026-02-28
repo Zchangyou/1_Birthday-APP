@@ -138,6 +138,6 @@ object AlarmScheduler {
             3 -> OFFSET_3DAY
             else -> OFFSET_7DAY
         }
-        return (eventId * 10 + offset).toInt()
+        return ((eventId * 10L + offset) and 0x7FFFFFFF).toInt()
     }
 }

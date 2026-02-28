@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -x http://127.0.0.1:7897 -L \"https://jitpack.io/api/builds/com.github.6tail/lunar-java\" --connect-timeout 15 --max-time 30 -s -o /tmp/jitpack_builds.json)",
+      "Bash(python -c \":*)"
+    ]
+  }
+}

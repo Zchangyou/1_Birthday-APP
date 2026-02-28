@@ -104,16 +104,23 @@ object EventUtils {
 
     /**
      * 计算年龄或周年数（需要 year 字段）。
+     * 比较今年该日期与今天，决定是否已过生日。
      */
     fun calcAge(event: Event): Int? {
         val birthYear = event.year ?: return null
-        val today = Calendar.getInstance()
+        val month = event.month ?: return null
+        val day = event.day ?: return null
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+        }
         val thisYear = today.get(Calendar.YEAR)
-
-        // 今年是否已过该日期
-        val days = getDaysUntilNextOccurrence(event) ?: return null
-        val age = thisYear - birthYear
-        return if (days == 0 || days < 0) age else age - 1
+        val thisYearOccurrence = resolveToSolar(event.dateType, month, day, thisYear)
+        return if (thisYearOccurrence > today) {
+            thisYear - birthYear - 1  // 今年生日/纪念日尚未到来
+        } else {
+            thisYear - birthYear      // 今天或今年已过
+        }
     }
 
     /**
