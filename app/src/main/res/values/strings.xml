@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">生日好友</string>
     <string name="nav_home">主页</string>
+    <string name="nav_contacts">通讯录</string>
     <string name="nav_settings">设置</string>
     <string name="add_event">添加</string>
     <string name="save">保存</string>

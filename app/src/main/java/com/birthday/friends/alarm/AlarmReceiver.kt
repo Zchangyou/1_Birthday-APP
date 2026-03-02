@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import com.birthday.friends.BirthdayApp
 import com.birthday.friends.MainActivity
@@ -75,6 +76,8 @@ class AlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(tapPendingIntent)
+            .setVibrate(longArrayOf(0, 500, 200, 500))
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .build()
 
         val manager = context.getSystemService(NotificationManager::class.java)

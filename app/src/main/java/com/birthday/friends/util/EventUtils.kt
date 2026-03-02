@@ -124,6 +124,23 @@ object EventUtils {
     }
 
     /**
+     * 计算从事件起始日期（需要 year 字段）到今天的累计天数。
+     * 若起始日期晚于今天（未来的日期），返回 null。
+     */
+    fun calcDaysFromStart(event: Event): Long? {
+        val year = event.year ?: return null
+        val month = event.month ?: return null
+        val day = event.day ?: return null
+        val startCal = resolveToSolar(event.dateType, month, day, year)
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+        }
+        val diffMs = today.timeInMillis - startCal.timeInMillis
+        return if (diffMs >= 0) diffMs / (1000L * 60 * 60 * 24) else null
+    }
+
+    /**
      * 事件类型中文名
      */
     fun eventTypeLabel(type: EventType): String = when (type) {

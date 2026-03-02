@@ -37,6 +37,8 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+
         // 接收编辑模式传入的 eventId
         editingId = arguments?.getLong("eventId")?.takeIf { it != 0L }
         if (editingId != null) {

@@ -1,10 +1,11 @@
-package com.birthday.friends.ui.main
+package com.birthday.friends.ui.contacts
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,23 +14,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.birthday.friends.R
-import com.birthday.friends.alarm.AlarmScheduler
-import com.birthday.friends.databinding.FragmentMainBinding
+import com.birthday.friends.databinding.FragmentContactsBinding
+import com.birthday.friends.ui.main.EventAdapter
 import kotlinx.coroutines.launch
 
-class MainFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: ContactsViewModel by viewModels()
     private lateinit var adapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentContactsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,45 +40,31 @@ class MainFragment : Fragment() {
         adapter = EventAdapter(
             onClick = { item ->
                 findNavController().navigate(
-                    R.id.action_main_to_detail,
+                    R.id.action_contacts_to_detail,
                     bundleOf("eventId" to item.event.id)
                 )
             },
-            onLongClick = { item ->
-                showDeleteDialog(item)
-                true
-            }
+            onLongClick = { _ -> true }
         )
-
         binding.recyclerView.adapter = adapter
 
-        binding.fabAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_main_to_edit)
-        }
+        // 搜索框监听
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.setQuery(s?.toString() ?: "")
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.events.collect { items ->
+                viewModel.filteredEvents.collect { items ->
                     adapter.submitList(items)
                     binding.tvEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
-                    val total = items.size
-                    val soon = items.count { it.daysUntil != null && it.daysUntil in 0..30 }
-                    binding.tvSummary.text = "共 $total 位好友 · 未来30天内 $soon 个生日/纪念日"
                 }
             }
         }
-    }
-
-    private fun showDeleteDialog(item: EventUiItem) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("删除")
-            .setMessage("确定要删除「${item.event.name}」吗？")
-            .setPositiveButton("删除") { _, _ ->
-                AlarmScheduler.cancelAll(requireContext(), item.event)
-                viewModel.delete(item.event)
-            }
-            .setNegativeButton("取消", null)
-            .show()
     }
 
     override fun onDestroyView() {

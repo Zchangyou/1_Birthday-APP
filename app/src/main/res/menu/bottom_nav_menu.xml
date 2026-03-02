@@ -5,6 +5,10 @@
         android:icon="@drawable/ic_cake"
         android:title="@string/nav_home" />
     <item
+        android:id="@+id/contactsFragment"
+        android:icon="@drawable/ic_people"
+        android:title="@string/nav_contacts" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/nav_settings" />

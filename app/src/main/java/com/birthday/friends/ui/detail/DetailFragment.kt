@@ -37,6 +37,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+
         val eventId = arguments?.getLong("eventId") ?: return
         viewModel.loadEvent(eventId)
 
@@ -57,6 +59,14 @@ class DetailFragment : Fragment() {
                         age != null && days == 0 -> "今天${age}周岁 / ${age}周年"
                         age != null -> "届时${age}周岁 / ${age}周年"
                         else -> ""
+                    }
+
+                    val totalDays = EventUtils.calcDaysFromStart(event)
+                    if (totalDays != null) {
+                        binding.tvDaysTotal.visibility = View.VISIBLE
+                        binding.tvDaysTotal.text = "已过 $totalDays 天"
+                    } else {
+                        binding.tvDaysTotal.visibility = View.GONE
                     }
 
                     // 显示选填字段（非空才显示）

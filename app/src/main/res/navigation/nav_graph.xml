@@ -57,4 +57,18 @@
         android:label="设置"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.birthday.friends.ui.contacts.ContactsFragment"
+        android:label="通讯录"
+        tools:layout="@layout/fragment_contacts">
+        <action
+            android:id="@+id/action_contacts_to_detail"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="eventId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
 </navigation>
