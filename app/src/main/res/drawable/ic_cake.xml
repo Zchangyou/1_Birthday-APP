@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 中央大星形闪光 (54, 25) -->
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M12,6C13.11,6 14,5.1 14,4C14,3.62 13.86,3.27 13.65,3L12,0L10.35,3C10.14,3.27 10,3.62 10,4C10,5.1 10.9,6 12,6M17,6C18.11,6 19,5.1 19,4C19,3.62 18.86,3.27 18.65,3L17,0L15.35,3C15.14,3.27 15,3.62 15,4C15,5.1 15.9,6 17,6M7,6C8.11,6 9,5.1 9,4C9,3.62 8.86,3.27 8.65,3L7,0L5.35,3C5.14,3.27 5,3.62 5,4C5,5.1 5.9,6 7,6M20,8H4C2.9,8 2,8.9 2,10V14H4V22H20V14H22V10C22,8.9 21.1,8 20,8M18,20H6V14H18V20M20,12H4V10H20V12Z" />
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,19 L55.8,23.2 L60,25 L55.8,26.8 L54,31 L52.2,26.8 L48,25 L52.2,23.2 Z"/>
+
+    <!-- 左侧小星形 (39, 30) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M39,26 L40,28.8 L43,30 L40,31.2 L39,34 L38,31.2 L35,30 L38,28.8 Z"/>
+
+    <!-- 右侧小星形 (69, 30) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M69,26 L70,28.8 L73,30 L70,31.2 L69,34 L68,31.2 L65,30 L68,28.8 Z"/>
+
+    <!-- 左蜡烛 (x:37-44, y:38-55) 圆顶 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M37,55 L37,41 Q37,38 40.5,38 Q44,38 44,41 L44,55 Z"/>
+
+    <!-- 中蜡烛 (x:50-58, y:34-55) 最高 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M50,55 L50,37 Q50,34 54,34 Q58,34 58,37 L58,55 Z"/>
+
+    <!-- 右蜡烛 (x:64-71, y:38-55) 圆顶 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M64,55 L64,41 Q64,38 67.5,38 Q71,38 71,41 L71,55 Z"/>
+
+    <!-- 上层蛋糕 (x:28-80, 主体 y:53-65)，云朵形底边 4 个弧 (弧宽13, r=6.5) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M28,65 A6.5,6.5 0 0,1 41,65 A6.5,6.5 0 0,1 54,65 A6.5,6.5 0 0,1 67,65 A6.5,6.5 0 0,1 80,65 L80,53 L28,53 Z"/>
+
+    <!-- 下层蛋糕 (x:22-86, 主体 y:74-82)，云朵形底边 4 个弧 (弧宽16, r=8) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M22,82 A8,8 0 0,1 38,82 A8,8 0 0,1 54,82 A8,8 0 0,1 70,82 A8,8 0 0,1 86,82 L86,74 L22,74 Z"/>
+
 </vector>
