@@ -1,5 +1,7 @@
 package com.birthday.friends.ui.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -64,7 +66,7 @@ class DetailFragment : Fragment() {
                     val totalDays = EventUtils.calcDaysFromStart(event)
                     if (totalDays != null) {
                         binding.tvDaysTotal.visibility = View.VISIBLE
-                        binding.tvDaysTotal.text = "已过 $totalDays 天"
+                        binding.tvDaysTotal.text = "今天是第 ${totalDays + 1} 天"
                     } else {
                         binding.tvDaysTotal.visibility = View.GONE
                     }
@@ -72,6 +74,11 @@ class DetailFragment : Fragment() {
                     // 显示选填字段（非空才显示）
                     binding.rowPhone.visibility = if (!event.phone.isNullOrEmpty()) View.VISIBLE else View.GONE
                     binding.tvPhone.text = event.phone
+                    binding.tvPhone.setOnClickListener {
+                        if (!event.phone.isNullOrEmpty()) {
+                            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${event.phone}")))
+                        }
+                    }
 
                     val idCard = EncryptionUtil.decrypt(event.idCardEncrypted)
                     binding.rowIdCard.visibility = if (!idCard.isNullOrEmpty()) View.VISIBLE else View.GONE

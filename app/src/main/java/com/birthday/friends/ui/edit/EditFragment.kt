@@ -1,10 +1,17 @@
 package com.birthday.friends.ui.edit
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -25,6 +32,49 @@ class EditFragment : Fragment() {
 
     private val viewModel: EditViewModel by viewModels()
     private var editingId: Long? = null
+
+    // 通讯录 Picker：用户选中联系人后回调
+    private val contactPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                requireContext().contentResolver.query(
+                    uri,
+                    arrayOf(
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ), null, null, null
+                )?.use { cursor ->
+                    if (cursor.moveToFirst()) {
+                        val name = cursor.getString(0)
+                        val phone = cursor.getString(1)
+                        if (binding.etName.text.isNullOrBlank()) {
+                            binding.etName.setText(name)
+                        }
+                        binding.etPhone.setText(phone)
+                    }
+                }
+            }
+        }
+    }
+
+    // 运行时权限请求
+    private val requestContactPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            launchContactPicker()
+        } else {
+            Toast.makeText(requireContext(), "需要通讯录权限才能导入", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun launchContactPicker() {
+        val intent = Intent(Intent.ACTION_PICK,
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI)
+        contactPickerLauncher.launch(intent)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +98,18 @@ class EditFragment : Fragment() {
         setupSpinners()
         observeEvent()
         setupSaveButton()
+
+        // 通讯录导入按钮
+        binding.btnImportContact.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.READ_CONTACTS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                launchContactPicker()
+            } else {
+                requestContactPermission.launch(Manifest.permission.READ_CONTACTS)
+            }
+        }
     }
 
     private fun setupSpinners() {
