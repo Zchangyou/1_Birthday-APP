@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">生日好友</string>
+    <string name="app_name">好友生日</string>
     <string name="nav_home">主页</string>
     <string name="nav_contacts">通讯录</string>
     <string name="nav_settings">设置</string>
