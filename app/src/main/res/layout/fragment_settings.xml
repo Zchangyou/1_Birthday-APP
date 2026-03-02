@@ -63,6 +63,34 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <!-- 测试通知 -->
+            <LinearLayout
+                android:id="@+id/row_test_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="测试通知"
+                    android:textSize="16sp"
+                    android:textColor="#FF1C1B1F" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="立即发送一条测试通知，验证提醒功能是否正常"
+                    android:textSize="13sp"
+                    android:textColor="#FF49454F"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
             <!-- 分隔 -->
             <View
                 android:layout_width="match_parent"

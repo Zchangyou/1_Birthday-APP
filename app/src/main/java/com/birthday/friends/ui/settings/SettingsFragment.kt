@@ -13,8 +13,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.birthday.friends.alarm.AlarmScheduler
 import com.birthday.friends.alarm.DailyCheckWorker
+import com.birthday.friends.alarm.NotificationTestHelper
 import com.birthday.friends.backup.BackupManager
+import com.birthday.friends.data.repository.EventRepository
 import com.birthday.friends.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -84,6 +87,15 @@ class SettingsFragment : Fragment() {
                 prefs.edit().putInt("reminder_hour", h).putInt("reminder_minute", m).apply()
                 updateTimeLabel()
                 Toast.makeText(requireContext(), "提醒时间已保存", Toast.LENGTH_SHORT).show()
+                // 立即用新时间重新调度所有已有事件的 Alarm
+                lifecycleScope.launch {
+                    val repo = EventRepository(requireContext())
+                    val events = repo.getAllEventsWithDate()
+                    events.forEach { event ->
+                        AlarmScheduler.cancelAll(requireContext(), event)
+                        AlarmScheduler.scheduleAll(requireContext(), event)
+                    }
+                }
             }, hour, minute, true).show()
         }
 
@@ -114,6 +126,12 @@ class SettingsFragment : Fragment() {
         // 荣耀/华为专属：受保护应用设置
         binding.rowHonorProtected.setOnClickListener {
             openHonorProtectedAppsSetting()
+        }
+
+        // 测试通知
+        binding.rowTestNotification.setOnClickListener {
+            NotificationTestHelper.sendTestNow(requireContext())
+            Toast.makeText(requireContext(), "测试通知已发送，请查看通知栏", Toast.LENGTH_SHORT).show()
         }
 
         // 检测是否荣耀/华为设备，若不是则隐藏荣耀专属设置项
